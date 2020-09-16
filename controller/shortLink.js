@@ -12,6 +12,7 @@ exports.getLink = asyncHandler(async (req, res, next) => {
 
     let link = await ShortLink.findOne({ shortLink: id })
 
+    console.log(link)
     if (link) return res.redirect(link.orignalLink)
 
     res.status(200).send({ success: false, message: 'invalid link' })

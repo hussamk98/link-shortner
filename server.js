@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const dotenv = require('dotenv')
+const path = require('path')
 const connectMongo = require('./config/db')
 const errorHandler = require('./middlewares/error')
 
@@ -19,10 +20,13 @@ connectMongo()
 
 //middlewares
 app.use(express.json())
+app.use(express.static(path.join('public')))
 
 app.use('/', shortLink)
 app.use(errorHandler)
-
+app.use((req, res, next) => {
+    res.sendFile(path.resolve(__dirname, 'public', 'index.html'))
+})
 //listen server
 const server = app.listen(process.env.PORT, (err) => {
     if (!err) console.log(`server listening at PORT ${process.env.PORT}`)
